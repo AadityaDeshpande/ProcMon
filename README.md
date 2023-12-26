@@ -33,3 +33,7 @@ Graph generated for RAM <br>
 - Once we have the statistics file, we can further develop an analysis.py file that can predict the CPU or RAM usage using ML or any other way.
 - Currently, the script uses the TOP command output and looks for columns %CPU and %MEM. I am sure this script can be extended to include other columns as well.
 - We can optimize the function start_monitor by reducing the first 7/8 lines of stats.
+
+## Open issues
+- If the process name is more than 15 characters then it truncates to have only 15 characters, to fix this we can include the -c option for the top command that can be explored
+- Performance improvement can be done, if the scenario is we are monitoring two or more processes from the same user, then once we get the output of the top command at the same time we can look for all processes inside it.
