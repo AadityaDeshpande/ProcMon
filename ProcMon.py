@@ -144,7 +144,7 @@ class ProcMon:
         while True:
             # Run the top command
             output = subprocess.check_output(
-                ['top', '-b', '-n', '1', '-u', self.username], universal_newlines=True)
+                ['top', '-b', '-n', '1', '-w512','-u', self.username], universal_newlines=True)
             #TODO: Remove first 7 lines from output
 
             cur_cpu = 0
