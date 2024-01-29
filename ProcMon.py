@@ -59,16 +59,22 @@ class ProcMon:
             self.pid_to_time_map.update({pid: [time.time(), time.time()]})
         else:
             self.pid_to_time_map[pid][1] = time.time()
-    
+
+    def calculate_effective_time(self) -> float:
+        # start time = 1st observed pid time
+        start_time_pid = list(self.pid_to_time_map.keys())[0]
+        start_time = self.pid_to_time_map[start_time_pid][0]
+        # end time = maximum end time observed in the pid_to_time_map
+        start_end_list = list(self.pid_to_time_map.values()) # list of [start time, end time]
+        end_time = max([sublist[1] for sublist in start_end_list])
+        return round(end_time - start_time, 3)
+
     def print_pid_with_time(self) -> None:
         for k,v in self.pid_to_time_map.items():
             print(f"for pid = {k} Total time= {round(v[1] - v[0], 3)} sec")
         if list(self.pid_to_time_map.keys()):
-            start_time_pid = list(self.pid_to_time_map.keys())[0]
-            end_time_pid = list(self.pid_to_time_map.keys())[-1]
-            # end time of last process - start time of first process = effectivat total time
-            print(f"Effective total time taken is {round(self.pid_to_time_map[end_time_pid][1] - self.pid_to_time_map[start_time_pid][0], 3)} sec")
-    
+            print(f"Effective Total Time taken is {self.calculate_effective_time()} sec")
+
     def plot_cpu_graph(self) -> None:
         plt.plot(self.cpu_percentages)
         plt.title(f"CPU% Usage over time for process '{self.process_name}'")
